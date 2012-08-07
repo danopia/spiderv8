@@ -2,6 +2,7 @@ language: cpp
 compiler:
   - gcc
 before_script:
+  - sudo apt-get -y install subversion
   - make dependencies
 script: time make V=1 ia32.debug
 after_script:
@@ -12,4 +13,4 @@ notifications:
   email:
     on_success: change
     on_failure: always
-
+    
