@@ -37,7 +37,6 @@
 #include "global-handles.h"
 #include "heap-profiler.h"
 #include "incremental-marking.h"
-#include "liveobjectlist-inl.h"
 #include "mark-compact.h"
 #include "natives.h"
 #include "objects-visiting.h"
@@ -412,7 +411,6 @@ void Heap::GarbageCollectionPrologue() {
   ReportStatisticsBeforeGC();
 #endif  // DEBUG
 
-  LiveObjectList::GCPrologue();
   store_buffer()->GCPrologue();
 }
 
@@ -427,7 +425,6 @@ intptr_t Heap::SizeOfObjects() {
 
 void Heap::GarbageCollectionEpilogue() {
   store_buffer()->GCEpilogue();
-  LiveObjectList::GCEpilogue();
 #ifdef DEBUG
   allow_allocation(true);
   ZapFromSpace();
@@ -1294,7 +1291,6 @@ void Heap::Scavenge() {
 
   promotion_queue_.Destroy();
 
-  LiveObjectList::UpdateReferencesForScavengeGC();
   if (!FLAG_watch_ic_patching) {
     isolate()->runtime_profiler()->UpdateSamplesAfterScavenge();
   }
