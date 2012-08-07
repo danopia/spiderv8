@@ -7,10 +7,11 @@ before_script:
 script: time make V=1 ia32.debug
 after_script:
   - du -sch out/ia32.debug/obj.target/v8_*
+  - sloccount src|grep -A100 "Computing results."|tail -n +4|head -n -6
 notifications:
   webhooks:
     - http://rcmp.programble.co.cc/irc.tenthbit.net/programming
   email:
     on_success: change
     on_failure: always
-    
+
