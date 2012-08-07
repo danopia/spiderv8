@@ -1475,52 +1475,11 @@ void Logger::RegisterSnapshotCodeName(Code* code,
 
 void Logger::LowLevelCodeCreateEvent(Code* code,
                                      const char* name,
-                                     int name_size) {
-  if (log_->ll_output_handle_ == NULL) return;
-  LowLevelCodeCreateStruct event;
-  event.name_size = name_size;
-  event.code_address = code->instruction_start();
-  ASSERT(event.code_address == code->address() + Code::kHeaderSize);
-  event.code_size = code->instruction_size();
-  LowLevelLogWriteStruct(event);
-  LowLevelLogWriteBytes(name, name_size);
-  LowLevelLogWriteBytes(
-      reinterpret_cast<const char*>(code->instruction_start()),
-      code->instruction_size());
-}
-
-
-void Logger::LowLevelCodeMoveEvent(Address from, Address to) {
-  if (log_->ll_output_handle_ == NULL) return;
-  LowLevelCodeMoveStruct event;
-  event.from_address = from + Code::kHeaderSize;
-  event.to_address = to + Code::kHeaderSize;
-  LowLevelLogWriteStruct(event);
-}
-
-
-void Logger::LowLevelCodeDeleteEvent(Address from) {
-  if (log_->ll_output_handle_ == NULL) return;
-  LowLevelCodeDeleteStruct event;
-  event.address = from + Code::kHeaderSize;
-  LowLevelLogWriteStruct(event);
-}
-
-
-void Logger::LowLevelSnapshotPositionEvent(Address addr, int pos) {
-  if (log_->ll_output_handle_ == NULL) return;
-  LowLevelSnapshotPositionStruct event;
-  event.address = addr + Code::kHeaderSize;
-  event.position = pos;
-  LowLevelLogWriteStruct(event);
-}
-
-
-void Logger::LowLevelLogWriteBytes(const char* bytes, int size) {
-  size_t rv = fwrite(bytes, 1, size, log_->ll_output_handle_);
-  ASSERT(static_cast<size_t>(size) == rv);
-  USE(rv);
-}
+                                     int name_size) {}
+void Logger::LowLevelCodeMoveEvent(Address from, Address to) {}
+void Logger::LowLevelCodeDeleteEvent(Address from) {}
+void Logger::LowLevelSnapshotPositionEvent(Address addr, int pos) {}
+void Logger::LowLevelLogWriteBytes(const char* bytes, int size) {}
 
 
 void Logger::LogCodeObjects() {

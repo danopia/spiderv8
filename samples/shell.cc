@@ -32,6 +32,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// SpiderJS-specific functions
+void klog(const char *line) {}
+void klog(const char *line, const int length) {}
+
 #ifdef COMPRESS_STARTUP_DATA_BZ2
 #error Using compressed startup data is not supported for this sample
 #endif

@@ -25,6 +25,10 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+// SpiderJS-specific functions
+void klog(const char *line) {}
+void klog(const char *line, const int length) {}
+
 #include <v8.h>
 #include "cctest.h"
 #include "debug.h"

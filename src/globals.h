@@ -28,6 +28,10 @@
 #ifndef V8_GLOBALS_H_
 #define V8_GLOBALS_H_
 
+// SpiderJS-specific functions
+void klog(const char *line);
+void klog(const char *line, const int length);
+
 // Define V8_INFINITY
 #define V8_INFINITY INFINITY
 

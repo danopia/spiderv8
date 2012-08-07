@@ -51,7 +51,7 @@ class Log {
 
   // Returns whether logging is enabled.
   bool IsEnabled() {
-    return !is_stopped_ && output_handle_ != NULL;
+    return !is_stopped_;
   }
 
   // Size of buffer used for formatting log messages.
@@ -64,34 +64,14 @@ class Log {
  private:
   explicit Log(Logger* logger);
 
-  // Opens stdout for logging.
-  void OpenStdout();
-
-  // Opens file for logging.
-  void OpenFile(const char* name);
-
-  // Opens a temporary file for logging.
-  void OpenTemporaryFile();
-
   // Implementation of writing to a log file.
   int WriteToFile(const char* msg, int length) {
-    ASSERT(output_handle_ != NULL);
-    size_t rv = fwrite(msg, 1, length, output_handle_);
-    ASSERT(static_cast<size_t>(length) == rv);
-    USE(rv);
-    fflush(output_handle_);
+    klog(msg, length);
     return length;
   }
 
   // Whether logging is stopped (e.g. due to insufficient resources).
   bool is_stopped_;
-
-  // When logging is active output_handle_ is used to store a pointer to log
-  // destination.  mutex_ should be acquired before using output_handle_.
-  FILE* output_handle_;
-
-  // Used when low-level profiling is active.
-  FILE* ll_output_handle_;
 
   // mutex_ is a Mutex used for enforcing exclusive
   // access to the formatting buffer and the log file or log memory buffer.

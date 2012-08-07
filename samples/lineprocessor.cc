@@ -31,6 +31,10 @@
 #include <v8-debug.h>
 #endif  // ENABLE_DEBUGGER_SUPPORT
 
+// SpiderJS-specific functions
+void klog(const char *line) {}
+void klog(const char *line, const int length) {}
+
 #include <fcntl.h>
 #include <string.h>
 #include <stdio.h>

@@ -43,6 +43,10 @@
 
 using namespace v8;
 
+// SpiderJS-specific functions
+void klog(const char *line) {}
+void klog(const char *line, const int length) {}
+
 static const unsigned int kMaxCounters = 256;
 
 // A single counter in a counter collection.

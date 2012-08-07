@@ -37,6 +37,10 @@
 using namespace std;
 using namespace v8;
 
+// SpiderJS-specific functions
+void klog(const char *line) {}
+void klog(const char *line, const int length) {}
+
 // These interfaces represent an existing request processing interface.
 // The idea is to imagine a real application that uses these interfaces
 // and then add scripting capabilities that allow you to interact with

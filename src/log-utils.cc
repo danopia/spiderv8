@@ -39,18 +39,9 @@ const char* const Log::kLogToTemporaryFile = "&";
 
 Log::Log(Logger* logger)
   : is_stopped_(false),
-    output_handle_(NULL),
-    ll_output_handle_(NULL),
     mutex_(NULL),
     message_buffer_(NULL),
     logger_(logger) {
-}
-
-
-static void AddIsolateIdIfNeeded(StringStream* stream) {
-  Isolate* isolate = Isolate::Current();
-  if (isolate->IsDefaultIsolate()) return;
-  stream->Add("isolate-%p-", isolate);
 }
 
 
@@ -82,106 +73,18 @@ void Log::Initialize() {
       || FLAG_log_code || FLAG_log_gc || FLAG_log_handles || FLAG_log_suspect
       || FLAG_log_regexp || FLAG_log_state_changes || FLAG_ll_prof;
 
-  // If we're logging anything, we need to open the log file.
-  if (open_log_file) {
-    if (strcmp(FLAG_logfile, "-") == 0) {
-      OpenStdout();
-    } else if (strcmp(FLAG_logfile, kLogToTemporaryFile) == 0) {
-      OpenTemporaryFile();
-    } else {
-      if (strchr(FLAG_logfile, '%') != NULL ||
-          !Isolate::Current()->IsDefaultIsolate()) {
-        // If there's a '%' in the log file name we have to expand
-        // placeholders.
-        HeapStringAllocator allocator;
-        StringStream stream(&allocator);
-        AddIsolateIdIfNeeded(&stream);
-        for (const char* p = FLAG_logfile; *p; p++) {
-          if (*p == '%') {
-            p++;
-            switch (*p) {
-              case '\0':
-                // If there's a % at the end of the string we back up
-                // one character so we can escape the loop properly.
-                p--;
-                break;
-              case 't': {
-                // %t expands to the current time in milliseconds.
-                double time = OS::TimeCurrentMillis();
-                stream.Add("%.0f", FmtElm(time));
-                break;
-              }
-              case '%':
-                // %% expands (contracts really) to %.
-                stream.Put('%');
-                break;
-              default:
-                // All other %'s expand to themselves.
-                stream.Put('%');
-                stream.Put(*p);
-                break;
-            }
-          } else {
-            stream.Put(*p);
-          }
-        }
-        SmartArrayPointer<const char> expanded = stream.ToCString();
-        OpenFile(*expanded);
-      } else {
-        OpenFile(FLAG_logfile);
-      }
-    }
-  }
+  
+  // If we're logging anything, let's warn the kernel
+  if (open_log_file)
+    klog("[v8] Preparing to log");
 }
-
-
-void Log::OpenStdout() {
-  ASSERT(!IsEnabled());
-  output_handle_ = stdout;
-}
-
-
-void Log::OpenTemporaryFile() {
-  ASSERT(!IsEnabled());
-  output_handle_ = i::OS::OpenTemporaryFile();
-}
-
-
-// Extension added to V8 log file name to get the low-level log name.
-static const char kLowLevelLogExt[] = ".ll";
 
 // File buffer size of the low-level log. We don't use the default to
 // minimize the associated overhead.
 static const int kLowLevelLogBufferSize = 2 * MB;
 
-
-void Log::OpenFile(const char* name) {
-  ASSERT(!IsEnabled());
-  output_handle_ = OS::FOpen(name, OS::LogFileOpenMode);
-  if (FLAG_ll_prof) {
-    // Open the low-level log file.
-    size_t len = strlen(name);
-    ScopedVector<char> ll_name(static_cast<int>(len + sizeof(kLowLevelLogExt)));
-    memcpy(ll_name.start(), name, len);
-    memcpy(ll_name.start() + len, kLowLevelLogExt, sizeof(kLowLevelLogExt));
-    ll_output_handle_ = OS::FOpen(ll_name.start(), OS::LogFileOpenMode);
-    setvbuf(ll_output_handle_, NULL, _IOFBF, kLowLevelLogBufferSize);
-  }
-}
-
-
 FILE* Log::Close() {
-  FILE* result = NULL;
-  if (output_handle_ != NULL) {
-    if (strcmp(FLAG_logfile, kLogToTemporaryFile) != 0) {
-      fclose(output_handle_);
-    } else {
-      result = output_handle_;
-    }
-  }
-  output_handle_ = NULL;
-  if (ll_output_handle_ != NULL) fclose(ll_output_handle_);
-  ll_output_handle_ = NULL;
+  klog("[v8] Closing log file");
 
   DeleteArray(message_buffer_);
   message_buffer_ = NULL;
@@ -190,7 +93,7 @@ FILE* Log::Close() {
   mutex_ = NULL;
 
   is_stopped_ = false;
-  return result;
+  return 0;
 }
 
 
