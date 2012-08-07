@@ -8,10 +8,7 @@
       'target_name': 'All',
       'type': 'none',
       'dependencies': [
-        '../preparser/preparser.gyp:*',
-        '../samples/samples.gyp:*',
-        '../src/d8.gyp:d8',
-        '../test/cctest/cctest.gyp:*',
+        '../tools/gyp/v8.gyp:*',
       ],
     }
   ]
