@@ -60,56 +60,6 @@ void FPRINTF_CHECKING PrintF(FILE* out, const char* format, ...);
 // Prepends the current process ID to the output.
 void PRINTF_CHECKING PrintPID(const char* format, ...);
 
-// Our version of fflush.
-void Flush(FILE* out);
-
-inline void Flush() {
-  Flush(stdout);
-}
-
-
-// Read a line of characters after printing the prompt to stdout. The resulting
-// char* needs to be disposed off with DeleteArray by the caller.
-char* ReadLine(const char* prompt);
-
-
-// Read and return the raw bytes in a file. the size of the buffer is returned
-// in size.
-// The returned buffer must be freed by the caller.
-byte* ReadBytes(const char* filename, int* size, bool verbose = true);
-
-
-// Append size chars from str to the file given by filename.
-// The file is overwritten. Returns the number of chars written.
-int AppendChars(const char* filename,
-                const char* str,
-                int size,
-                bool verbose = true);
-
-
-// Write size chars from str to the file given by filename.
-// The file is overwritten. Returns the number of chars written.
-int WriteChars(const char* filename,
-               const char* str,
-               int size,
-               bool verbose = true);
-
-
-// Write size bytes to the file given by filename.
-// The file is overwritten. Returns the number of bytes written.
-int WriteBytes(const char* filename,
-               const byte* bytes,
-               int size,
-               bool verbose = true);
-
-
-// Write the C code
-// const char* <varname> = "<str>";
-// const int <varname>_len = <len>;
-// to the file given by filename. Only the first len chars are written.
-int WriteAsCFile(const char* filename, const char* varname,
-                 const char* str, int size, bool verbose = true);
-
 
 // Data structures
 
@@ -189,17 +139,6 @@ class AsciiStringAdapter: public v8::String::ExternalAsciiStringResource {
  private:
   Vector<const char> data_;
 };
-
-
-// Simple support to read a file into a 0-terminated C-string.
-// The returned buffer must be freed by the caller.
-// On return, *exits tells whether the file existed.
-Vector<const char> ReadFile(const char* filename,
-                            bool* exists,
-                            bool verbose = true);
-Vector<const char> ReadFile(FILE* file,
-                            bool* exists,
-                            bool verbose = true);
 
 
 // Copy from ASCII/16bit chars to ASCII/16bit chars.

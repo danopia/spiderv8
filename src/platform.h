@@ -145,9 +145,6 @@ class OS {
   // Returns the daylight savings offset for the given time.
   static double DaylightSavingsOffset(double time);
 
-  static FILE* FOpen(const char* path, const char* mode);
-  static bool Remove(const char* path);
-
   // Print output to console. This is mostly used for debugging output.
   // On platforms that has standard terminal output, the output
   // should go to stdout.

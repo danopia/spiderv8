@@ -74,12 +74,6 @@ int localtime_s(tm* out_tm, const time_t* time) {
   return 0;
 }
 
-
-int fopen_s(FILE** pFile, const char* filename, const char* mode) {
-  *pFile = fopen(filename, mode);
-  return *pFile != NULL ? 0 : 1;
-}
-
 int _vsnprintf_s(char* buffer, size_t sizeOfBuffer, size_t count,
                  const char* format, va_list argptr) {
   ASSERT(count == _TRUNCATE);
@@ -654,21 +648,6 @@ static void VPrintHelper(FILE* stream, const char* format, va_list args) {
     OS::VSNPrintF(buffer, format, args);
     OutputDebugStringA(buffer.start());
   }
-}
-
-
-FILE* OS::FOpen(const char* path, const char* mode) {
-  FILE* result;
-  if (fopen_s(&result, path, mode) == 0) {
-    return result;
-  } else {
-    return NULL;
-  }
-}
-
-
-bool OS::Remove(const char* path) {
-  return (DeleteFileA(path) != 0);
 }
 
 

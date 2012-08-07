@@ -187,22 +187,6 @@ double OS::DaylightSavingsOffset(double time) {
 // POSIX stdio support.
 //
 
-FILE* OS::FOpen(const char* path, const char* mode) {
-  FILE* file = fopen(path, mode);
-  if (file == NULL) return NULL;
-  struct stat file_stat;
-  if (fstat(fileno(file), &file_stat) != 0) return NULL;
-  bool is_regular_file = ((file_stat.st_mode & S_IFREG) != 0);
-  if (is_regular_file) return file;
-  fclose(file);
-  return NULL;
-}
-
-
-bool OS::Remove(const char* path) {
-  return (remove(path) == 0);
-}
-
 void OS::Print(const char* format, ...) {
   va_list args;
   va_start(args, format);

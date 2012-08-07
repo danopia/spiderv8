@@ -51,7 +51,6 @@ void MaybeObject::Print(FILE* out) {
   } else {
     Failure::cast(this)->FailurePrint(out);
   }
-  Flush(out);
 }
 
 

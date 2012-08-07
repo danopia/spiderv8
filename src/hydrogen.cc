@@ -9520,7 +9520,6 @@ void HTracer::TraceLiveRange(LiveRange* range, const char* type,
 
 
 void HTracer::FlushToFile() {
-  AppendChars(filename_, *trace_.ToCString(), trace_.length(), false);
   trace_.Reset();
 }
 

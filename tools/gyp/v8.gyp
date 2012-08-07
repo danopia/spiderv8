@@ -43,7 +43,7 @@
               # The dependency on v8_base should come from a transitive
               # dependency however the Android toolchain requires libv8_base.a
               # to appear before libv8_snapshot.a so it's listed explicitly.
-              'dependencies': ['v8_base', 'v8_snapshot'],
+              'dependencies': ['v8_base', 'v8_nosnapshot'],
             },
             {
               # The dependency on v8_base should come from a transitive
@@ -88,97 +88,6 @@
               '../../include',
             ],
           },
-        },
-        {
-          'target_name': 'v8_snapshot',
-          'type': '<(library)',
-          'conditions': [
-            ['want_separate_host_toolset==1', {
-              'toolsets': ['host', 'target'],
-              'dependencies': ['mksnapshot#host', 'js2c#host'],
-            }, {
-              'toolsets': ['target'],
-              'dependencies': ['mksnapshot', 'js2c'],
-            }],
-            ['component=="shared_library"', {
-              'defines': [
-                'V8_SHARED',
-                'BUILDING_V8_SHARED',
-              ],
-              'direct_dependent_settings': {
-                'defines': [
-                  'V8_SHARED',
-                  'USING_V8_SHARED',
-                ],
-              },
-            }],
-          ],
-          'dependencies': [
-            'v8_base',
-          ],
-          'include_dirs+': [
-            '../../src',
-          ],
-          'sources': [
-            '<(SHARED_INTERMEDIATE_DIR)/libraries.cc',
-            '<(SHARED_INTERMEDIATE_DIR)/experimental-libraries.cc',
-            '<(INTERMEDIATE_DIR)/snapshot.cc',
-          ],
-          'actions': [
-            {
-              'action_name': 'run_mksnapshot',
-              'inputs': [
-                '<(PRODUCT_DIR)/<(EXECUTABLE_PREFIX)mksnapshot<(EXECUTABLE_SUFFIX)',
-              ],
-              'outputs': [
-                '<(INTERMEDIATE_DIR)/snapshot.cc',
-              ],
-              'variables': {
-                'mksnapshot_flags': [
-                  '--log-snapshot-positions',
-                  '--logfile', '<(INTERMEDIATE_DIR)/snapshot.log',
-                ],
-              },
-              'conditions': [
-                ['v8_target_arch=="arm"', {
-                  # The following rules should be consistent with chromium's
-                  # common.gypi and V8's runtime rule to ensure they all generate
-                  # the same correct machine code. The following issue is about
-                  # V8's runtime rule about vfpv3 and neon:
-                  # http://code.google.com/p/v8/issues/detail?id=914
-                  'conditions': [
-                    ['armv7==1', {
-                      # The ARM Architecture Manual mandates VFPv3 if NEON is
-                      # available.
-                      # The current V8 doesn't use d16-d31, so for vfpv3-d16, we can
-                      # also enable vfp3 for the better performance.
-                      'conditions': [
-                        ['arm_neon!=1 and arm_fpu!="vfpv3" and arm_fpu!="vfpv3-d16"', {
-                          'variables': {
-                            'mksnapshot_flags': [
-                              '--noenable_vfp3',
-                            ],
-                          },
-                        }],
-                      ],
-                    },{ # else: armv7!=1
-                      'variables': {
-                        'mksnapshot_flags': [
-                          '--noenable_armv7',
-                          '--noenable_vfp3',
-                        ],
-                      },
-                    }],
-                  ],
-                }],
-              ],
-              'action': [
-                '<@(_inputs)',
-                '<@(mksnapshot_flags)',
-                '<@(_outputs)'
-              ],
-            },
-          ],
         },
         {
           'target_name': 'v8_nosnapshot',
@@ -842,32 +751,6 @@
                 ]
               }
            ]
-        },
-        {
-          'target_name': 'mksnapshot',
-          'type': 'executable',
-          'dependencies': [
-            'v8_base',
-            'v8_nosnapshot',
-          ],
-          'include_dirs+': [
-            '../../src',
-          ],
-          'sources': [
-            '../../src/mksnapshot.cc',
-          ],
-          'conditions': [
-            ['want_separate_host_toolset==1', {
-              'toolsets': ['host'],
-            }, {
-              'toolsets': ['target'],
-            }],
-            ['v8_compress_startup_data=="bz2"', {
-              'libraries': [
-                '-lbz2',
-              ]
-            }],
-          ],
         },
         {
           'target_name': 'v8_shell',

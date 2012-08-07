@@ -1425,9 +1425,7 @@ class HTracer: public Malloced {
   };
 
   explicit HTracer(const char* filename)
-      : filename_(filename), trace_(&string_allocator_), indent_(0) {
-    WriteChars(filename, "", 0, false);
-  }
+      : filename_(filename), trace_(&string_allocator_), indent_(0) {}
 
   void TraceLiveRange(LiveRange* range, const char* type, Zone* zone);
   void Trace(const char* name, HGraph* graph, LChunk* chunk);

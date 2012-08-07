@@ -8902,7 +8902,6 @@ RUNTIME_FUNCTION(MaybeObject*, Runtime_DebugPrint) {
   args[0]->ShortPrint();
 #endif
   PrintF("\n");
-  Flush();
 
   return args[0];  // return TOS
 }

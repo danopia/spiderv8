@@ -46,12 +46,7 @@ bool Snapshot::Deserialize(const byte* content, int len) {
 
 bool Snapshot::Initialize(const char* snapshot_file) {
   if (snapshot_file) {
-    int len;
-    byte* str = ReadBytes(snapshot_file, &len);
-    if (!str) return false;
-    Deserialize(str, len);
-    DeleteArray(str);
-    return true;
+    return false;
   } else if (size_ > 0) {
     Deserialize(raw_data_, raw_size_);
     return true;
