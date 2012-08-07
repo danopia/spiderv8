@@ -6,7 +6,7 @@ before_script:
   - make dependencies
 script: time make V=1 ia32.debug
 after_script:
-  - du -sh out/ia32.debug/obj.target/v8_*
+  - du -sch out/ia32.debug/obj.target/v8_*
 notifications:
   webhooks:
     - http://rcmp.programble.co.cc/irc.tenthbit.net/programming
