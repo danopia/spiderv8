@@ -622,11 +622,6 @@ double OS::DaylightSavingsOffset(double time) {
 }
 
 
-int OS::GetLastError() {
-  return ::GetLastError();
-}
-
-
 // ----------------------------------------------------------------------------
 // Win32 console output.
 //
@@ -1200,8 +1195,7 @@ static bool LoadSymbols(HANDLE process_handle) {
   char buf[OS::kStackWalkMaxNameLen] = {0};
   ok = _SymGetSearchPath(process_handle, buf, OS::kStackWalkMaxNameLen);
   if (!ok) {
-    int err = GetLastError();
-    PrintF("%d\n", err);
+    PrintF("ERROR\n");
     return false;
   }
 
@@ -1223,11 +1217,6 @@ static bool LoadSymbols(HANDLE process_handle) {
         reinterpret_cast<PSTR>(module_entry.szModule),        // ModuleName
         reinterpret_cast<DWORD64>(module_entry.modBaseAddr),  // BaseOfDll
         module_entry.modBaseSize);                            // SizeOfDll
-    if (base == 0) {
-      int err = GetLastError();
-      if (err != ERROR_MOD_NOT_FOUND &&
-          err != ERROR_INVALID_HANDLE) return false;
-    }
     LOG(i::Isolate::Current(),
         SharedLibraryEvent(
             module_entry.szExePath,
@@ -1361,13 +1350,6 @@ int OS::StackWalk(Vector<OS::StackFrame> frames) {
     } else {
       // No text representation of this frame
       frames[frames_count].text[0] = '\0';
-
-      // Continue if we are just missing a module (for non C/C++ frames a
-      // module will never be found).
-      int err = GetLastError();
-      if (err != ERROR_MOD_NOT_FOUND) {
-        break;
-      }
     }
 
     frames_count++;

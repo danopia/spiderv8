@@ -193,11 +193,6 @@ double OS::DaylightSavingsOffset(double time) {
 }
 
 
-int OS::GetLastError() {
-  return errno;
-}
-
-
 // ----------------------------------------------------------------------------
 // POSIX stdio support.
 //

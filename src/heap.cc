@@ -5840,7 +5840,6 @@ void Heap::RecordStats(HeapStats* stats, bool take_snapshot) {
   *stats->memory_allocator_capacity =
       isolate()->memory_allocator()->Size() +
       isolate()->memory_allocator()->Available();
-  *stats->os_error = OS::GetLastError();
       isolate()->memory_allocator()->Available();
   if (take_snapshot) {
     HeapIterator iterator;
