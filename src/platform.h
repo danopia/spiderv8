@@ -311,8 +311,6 @@ class OS {
   static const int kMinComplexMemCopy = 256;
 #endif  // V8_TARGET_ARCH_IA32
 
-  static int GetCurrentProcessId();
-
  private:
   static const int msPerSecond = 1000;
 

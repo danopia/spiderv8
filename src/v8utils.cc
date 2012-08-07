@@ -54,7 +54,7 @@ void PrintF(FILE* out, const char* format, ...) {
 
 
 void PrintPID(const char* format, ...) {
-  OS::Print("[%d] ", OS::GetCurrentProcessId());
+  OS::Print("[pid] ");
   va_list arguments;
   va_start(arguments, format);
   OS::VPrint(format, arguments);

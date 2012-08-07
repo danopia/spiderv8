@@ -153,11 +153,6 @@ double OS::nan_value() {
 }
 
 
-int OS::GetCurrentProcessId() {
-  return static_cast<int>(getpid());
-}
-
-
 // ----------------------------------------------------------------------------
 // POSIX date/time support.
 //
