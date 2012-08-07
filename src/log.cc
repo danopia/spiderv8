@@ -1050,7 +1050,6 @@ void Logger::CodeCreateEvent(LogEventsAndTags tag, Code* code, int args_count) {
 void Logger::CodeMovingGCEvent() {
   if (!log_->IsEnabled() || !FLAG_ll_prof) return;
   LowLevelLogWriteBytes(&kCodeMovingGCTag, sizeof(kCodeMovingGCTag));
-  OS::SignalCodeMovingGC();
 }
 
 

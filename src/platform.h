@@ -250,12 +250,6 @@ class OS {
   // occuring in shared libraries will not be properly accounted for.
   static void LogSharedLibraryAddresses();
 
-  // Support for the profiler.  Notifies the external profiling
-  // process that a code moving garbage collection starts.  Can do
-  // nothing, in which case the code objects must not move (e.g., by
-  // using --never-compact) if accurate profiling is desired.
-  static void SignalCodeMovingGC();
-
   // The return value indicates the CPU features we are sure of because of the
   // OS.  For example MacOSX doesn't run on any x86 CPUs that don't have SSE2
   // instructions.

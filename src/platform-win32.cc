@@ -1224,10 +1224,6 @@ void OS::LogSharedLibraryAddresses() {
 }
 
 
-void OS::SignalCodeMovingGC() {
-}
-
-
 // Walk the stack using the facilities in dbghelp.dll and tlhelp32.dll
 
 // Switch off warning 4748 (/GS can not protect parameters and local variables
@@ -1345,7 +1341,6 @@ int OS::StackWalk(Vector<OS::StackFrame> frames) {
 
 #else  // __MINGW32__
 void OS::LogSharedLibraryAddresses() { }
-void OS::SignalCodeMovingGC() { }
 int OS::StackWalk(Vector<OS::StackFrame> frames) { return 0; }
 #endif  // __MINGW32__
 

@@ -512,32 +512,6 @@ void OS::LogSharedLibraryAddresses() {
 }
 
 
-static const char kGCFakeMmap[] = "/tmp/__v8_gc__";
-
-
-void OS::SignalCodeMovingGC() {
-  // Support for ll_prof.py.
-  //
-  // The Linux profiler built into the kernel logs all mmap's with
-  // PROT_EXEC so that analysis tools can properly attribute ticks. We
-  // do a mmap with a name known by ll_prof.py and immediately munmap
-  // it. This injects a GC marker into the stream of events generated
-  // by the kernel and allows us to synchronize V8 code log and the
-  // kernel log.
-  int size = sysconf(_SC_PAGESIZE);
-  FILE* f = fopen(kGCFakeMmap, "w+");
-  void* addr = mmap(OS::GetRandomMmapAddr(),
-                    size,
-                    PROT_READ | PROT_EXEC,
-                    MAP_PRIVATE,
-                    fileno(f),
-                    0);
-  ASSERT(addr != MAP_FAILED);
-  OS::Free(addr, size);
-  fclose(f);
-}
-
-
 int OS::StackWalk(Vector<OS::StackFrame> frames) {
   // backtrace is a glibc extension.
 #if defined(__GLIBC__) && !defined(__UCLIBC__)
