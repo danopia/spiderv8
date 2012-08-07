@@ -513,26 +513,6 @@ int Socket::LastError() {
 }
 
 
-uint16_t Socket::HToN(uint16_t value) {
-  return htons(value);
-}
-
-
-uint16_t Socket::NToH(uint16_t value) {
-  return ntohs(value);
-}
-
-
-uint32_t Socket::HToN(uint32_t value) {
-  return htonl(value);
-}
-
-
-uint32_t Socket::NToH(uint32_t value) {
-  return ntohl(value);
-}
-
-
 Socket* OS::CreateSocket() {
   return new POSIXSocket();
 }

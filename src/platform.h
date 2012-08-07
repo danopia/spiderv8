@@ -660,10 +660,6 @@ class Socket {
 
   static bool SetUp();
   static int LastError();
-  static uint16_t HToN(uint16_t value);
-  static uint16_t NToH(uint16_t value);
-  static uint32_t HToN(uint32_t value);
-  static uint32_t NToH(uint32_t value);
 };
 
 
