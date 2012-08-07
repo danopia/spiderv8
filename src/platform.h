@@ -126,12 +126,6 @@ class OS {
   // Clean up platform-OS-related things. Called once at VM shutdown.
   static void TearDown();
 
-  // Returns the accumulated user time for thread. This routine
-  // can be used for profiling. The implementation should
-  // strive for high-precision timer resolution, preferable
-  // micro-second resolution.
-  static int GetUserTime(uint32_t* secs,  uint32_t* usecs);
-
   // Get a tick counter normalized to one tick per microsecond.
   // Used for calculating time intervals.
   static int64_t Ticks();

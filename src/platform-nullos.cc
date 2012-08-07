@@ -96,15 +96,6 @@ void OS::TearDown() {
 }
 
 
-// Returns the accumulated user time for thread.
-int OS::GetUserTime(uint32_t* secs,  uint32_t* usecs) {
-  UNIMPLEMENTED();
-  *secs = 0;
-  *usecs = 0;
-  return 0;
-}
-
-
 // Returns current time as the number of milliseconds since
 // 00:00:00 UTC, January 1, 1970.
 double OS::TimeCurrentMillis() {

@@ -1160,11 +1160,6 @@ void Logger::ResourceEvent(const char* name, const char* tag) {
   if (!log_->IsEnabled() || !FLAG_log) return;
   LogMessageBuilder msg(this);
   msg.Append("%s,%s,", name, tag);
-
-  uint32_t sec, usec;
-  if (OS::GetUserTime(&sec, &usec) != -1) {
-    msg.Append("%d,%d,", sec, usec);
-  }
   msg.Append("%.0f", OS::TimeCurrentMillis());
 
   msg.Append('\n');

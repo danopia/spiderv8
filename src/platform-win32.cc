@@ -564,25 +564,6 @@ void OS::PostSetUp() {
 }
 
 
-// Returns the accumulated user time for thread.
-int OS::GetUserTime(uint32_t* secs,  uint32_t* usecs) {
-  FILETIME dummy;
-  uint64_t usertime;
-
-  // Get the amount of time that the thread has executed in user mode.
-  if (!GetThreadTimes(GetCurrentThread(), &dummy, &dummy, &dummy,
-                      reinterpret_cast<FILETIME*>(&usertime))) return -1;
-
-  // Adjust the resolution to micro-seconds.
-  usertime /= 10;
-
-  // Convert to seconds and microseconds
-  *secs = static_cast<uint32_t>(usertime / 1000000);
-  *usecs = static_cast<uint32_t>(usertime % 1000000);
-  return 0;
-}
-
-
 // Returns current time as the number of milliseconds since
 // 00:00:00 UTC, January 1, 1970.
 double OS::TimeCurrentMillis() {

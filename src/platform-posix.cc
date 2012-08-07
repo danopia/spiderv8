@@ -157,16 +157,6 @@ double OS::nan_value() {
 // POSIX date/time support.
 //
 
-int OS::GetUserTime(uint32_t* secs,  uint32_t* usecs) {
-  struct rusage usage;
-
-  if (getrusage(RUSAGE_SELF, &usage) < 0) return -1;
-  *secs = usage.ru_utime.tv_sec;
-  *usecs = usage.ru_utime.tv_usec;
-  return 0;
-}
-
-
 double OS::TimeCurrentMillis() {
   struct timeval tv;
   if (gettimeofday(&tv, NULL) < 0) return 0.0;
