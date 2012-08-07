@@ -223,15 +223,6 @@ bool OS::Remove(const char* path) {
   return (remove(path) == 0);
 }
 
-
-FILE* OS::OpenTemporaryFile() {
-  return tmpfile();
-}
-
-
-const char* const OS::LogFileOpenMode = "w";
-
-
 void OS::Print(const char* format, ...) {
   va_list args;
   va_start(args, format);
