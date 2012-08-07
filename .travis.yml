@@ -7,7 +7,7 @@ before_script:
 script: time make V=1 ia32.debug
 after_script:
   - du -sch out/ia32.debug/obj.target/v8_*
-  - sloccount src|grep -A100 "Computing results."|tail -n +4|head -n -6
+  - find src include -type f|xargs cat|wc -l
 notifications:
   webhooks:
     - http://rcmp.programble.co.cc/irc.tenthbit.net/programming
