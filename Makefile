@@ -124,7 +124,7 @@ ANDROID_ARCHES = android_ia32 android_arm
 
 # List of files that trigger Makefile regeneration:
 GYPFILES = build/all.gyp build/common.gypi build/standalone.gypi \
-           preparser/preparser.gyp samples/samples.gyp src/d8.gyp \
+           preparser/preparser.gyp samples/samples.gyp \
            test/cctest/cctest.gyp tools/gyp/v8.gyp
 
 # Generates all combinations of ARCHES and MODES, e.g. "ia32.release".
