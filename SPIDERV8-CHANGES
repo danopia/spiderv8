@@ -1,0 +1,21 @@
+This file is to offer a rough list of differences between SpiderV8 and stock V8.
+
+SpiderV8 is a fork of V8 for SpiderOS (https://github.com/danopia/spideros),
+an attempt to embed V8 in a kernel.
+
+I (@duckinator) hope to make the majority of these changes be handled by a patch
+that adds a handful of  #ifdef/#ifndef instances.
+
+You can find more information about specific changes at https://github.com/danopia/spiderv8/commits/master
+
+General changes:
+* Removed d8 and mksnapshot.
+* Logging uses klog() instead of logging to disk.
+* All fopen/fwrite/fclose/etc references removed.
+* LiveObjectList removed.
+* Possibly removed sockets. Only needed used to support debugging.
+* New build system (will eventually be modified to be compatible with the old one).
+* Removed function for opening temporary files.
+* Removed functions for determining PID. (Better approach: dummy getpid/GetCurrentProcessID?)
+* Removed hton and ntoh.
+* Removed "accessory binaries" (What the heck are those? http://git.io/pQhP8A)
